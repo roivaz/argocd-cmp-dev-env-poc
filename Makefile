@@ -27,7 +27,7 @@ argocd-plugin-sockets:
 	mkdir -p /tmp/argocd-plugin-sockets && chmod 777 /tmp/argocd-plugin-sockets
 
 KIND_ADMIN_KUBECONFIG ?= $(PWD)/kubeconfig
-start: kind argocd-plugin-sockets
+start: kind cmp-plugin
 	KUBECONFIG=$(KIND_ADMIN_KUBECONFIG) $(KIND) create cluster --wait 5m --config kind.yaml --image kindest/node:v${K8S_VERSION}
 	@make -s argocd-setup
 
@@ -35,7 +35,7 @@ stop:
 	kind delete cluster --name=kind || true
 
 clean:
-	rm -rf bin tmp kubeconfig
+	rm -rf bin tmp kubeconfig argocd-cmp-plugin/bin
 
 ##@ Install argocd and configure the root:test workspace
 ARGOCD ?= $(LOCALBIN)/argocd
@@ -56,7 +56,8 @@ $(ARGOCD_CMP_SERVER):
 CMP_PLUGIN ?= argocd-cmp-plugin/bin/argocd-vault-plugin
 cmp-plugin: $(CMP_PLUGIN)
 $(CMP_PLUGIN):
-	curl -sL "https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.11.0/argocd-vault-plugin_1.11.0_-$(OS)_$(ARCH)" -o $(CMP_PLUGIN)
+	mkdir -p argocd-cmp-plugin/bin
+	curl -sL "https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.11.0/argocd-vault-plugin_1.11.0_$(OS)_$(ARCH)" -o $(CMP_PLUGIN)
 	chmod +x $(CMP_PLUGIN)
 
 KUSTOMIZE ?= $(LOCALBIN)/kustomize

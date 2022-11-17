@@ -3,5 +3,5 @@ kind: Cluster
 nodes:
   - role: control-plane
     extraMounts:
-      - hostPath: /tmp/argocd-plugin-sockets
-        containerPath: /tmp/argocd-plugin-sockets
+      - hostPath: argocd-cmp-plugin/bin/
+        containerPath: /plugin

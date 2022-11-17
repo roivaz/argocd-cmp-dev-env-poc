@@ -6,15 +6,10 @@ namespace: argocd
 resources:
   - namespace.yaml
   - https://github.com/argoproj/argo-cd/manifests/cluster-install?ref=v2.4.12
+  - plugin-config.yaml
 
 patches:
-  - target:
-      kind: Deployment
-      name: argocd-repo-server
-    patch: |-
-      - op: replace
-        path: /spec/template/spec/volumes/8
-        value: {"name":"plugins","hostPath":{"path":"/tmp/argocd-plugin-sockets"}}
+  - path: argocd-repo-server-deployment.yaml
   - target:
       kind: ConfigMap
       name: argocd-rbac-cm

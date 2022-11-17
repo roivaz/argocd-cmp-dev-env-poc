@@ -53,7 +53,7 @@ $(ARGOCD_CMP_SERVER):
 	git clone --branch $(ARGOCD_CMP_SERVER_VERSION) --depth=1 https://github.com/argoproj/argo-cd.git tmp/argo-cd || true
 	cd tmp/argo-cd && make argocd-all BIN_NAME=argocd-cmp-server DIST_DIR=../../bin
 
-CMP_PLUGIN ?= argocd-cmp-plugin/bin/avp
+CMP_PLUGIN ?= argocd-cmp-plugin/bin/argocd-vault-plugin
 cmp-plugin: $(CMP_PLUGIN)
 $(CMP_PLUGIN):
 	curl -sL "https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.11.0/argocd-vault-plugin_1.11.0_-$(OS)_$(ARCH)" -o $(CMP_PLUGIN)
@@ -92,6 +92,10 @@ argocd-setup: argocd kustomize
 
 argocd-port-forward-stop:
 	pkill kubectl
+
+logs: export KUBECONFIG=$(KIND_ADMIN_KUBECONFIG)
+logs:
+	kubectl -n argocd logs -fl "app.kubernetes.io/name=argocd-repo-server" -c plugin
 
 run-cmp-server: plugin-bin cmp-plugin argocd-cmp-server
 	docker run -ti --rm \

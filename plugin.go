@@ -18,19 +18,15 @@ func main() {
 				Usage: "argocd-glbc-plugin generate <path>",
 				Action: func(cCtx *cli.Context) error {
 					path := cCtx.Args().First()
-					// fmt.Printf("len(path)=%d", len(path))
 					if len(path) < 1 {
 						return cli.Exit("Must specify a path", 1)
 					}
-					// fmt.Printf("path: %s", path)
-
 					// TODO: Sanity check path is not trying to break outside current dir
 					err := filepath.Walk(path,
 						func(file string, info os.FileInfo, err error) error {
 							if err != nil {
 								return err
 							}
-							// fmt.Println(file, info.Size())
 							fileExtension := filepath.Ext(file)
 							if fileExtension == ".yaml" {
 								dat, err := os.ReadFile(file)

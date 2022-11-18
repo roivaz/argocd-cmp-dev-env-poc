@@ -55,7 +55,7 @@ $(ARGOCD_CMP_SERVER):
 
 CMP_PLUGIN ?= argocd-cmp-plugin/bin/argocd-glbc-plugin
 cmp-plugin: $(CMP_PLUGIN)
-$(CMP_PLUGIN):
+$(CMP_PLUGIN): plugin.go
 	mkdir -p argocd-cmp-plugin/bin
 	GOOS=linux CGO_ENABLED=0 go build -o argocd-cmp-plugin/bin/argocd-glbc-plugin plugin.go
 	chmod +x $(CMP_PLUGIN)

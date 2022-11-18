@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ConfigManagementPlugin
 metadata:
-  name: argocd-vault-plugin
+  name: argocd-glbc-plugin
 spec:
   allowConcurrency: true
   discover:

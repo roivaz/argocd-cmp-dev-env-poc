@@ -7,7 +7,7 @@ data:
     apiVersion: argoproj.io/v1alpha1
     kind: ConfigManagementPlugin
     metadata:
-      name: argocd-vault-plugin
+      name: argocd-glbc-plugin
     spec:
       allowConcurrency: true
       discover:
@@ -18,7 +18,7 @@ data:
             - "find . -name '*.yaml' | xargs -I {} grep \"<path\\|avp\\.kubernetes\\.io\" {} | grep ."
       generate:
         command:
-          - argocd-vault-plugin
+          - argocd-glbc-plugin
           - generate
           - "."
       lockRepo: false

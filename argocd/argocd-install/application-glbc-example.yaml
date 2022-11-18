@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: example-glbc-application
+spec:
+  destination:
+    name: in-cluster
+    namespace: example-glbc-application
+  project: default
+  source:
+    repoURL: https://github.com/roivaz/argocd-cmp-dev-env-poc.git
+    targetRevision: HEAD
+    path: manifests/test-app
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

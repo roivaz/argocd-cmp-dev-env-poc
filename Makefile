@@ -53,11 +53,11 @@ $(ARGOCD_CMP_SERVER):
 	git clone --branch $(ARGOCD_CMP_SERVER_VERSION) --depth=1 https://github.com/argoproj/argo-cd.git tmp/argo-cd || true
 	cd tmp/argo-cd && make argocd-all BIN_NAME=argocd-cmp-server DIST_DIR=../../bin
 
-CMP_PLUGIN ?= argocd-cmp-plugin/bin/argocd-vault-plugin
+CMP_PLUGIN ?= argocd-cmp-plugin/bin/argocd-glbc-plugin
 cmp-plugin: $(CMP_PLUGIN)
 $(CMP_PLUGIN):
 	mkdir -p argocd-cmp-plugin/bin
-	curl -sL "https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v1.11.0/argocd-vault-plugin_1.11.0_$(OS)_$(ARCH)" -o $(CMP_PLUGIN)
+	GOOS=linux CGO_ENABLED=0 go build -o argocd-cmp-plugin/bin/argocd-glbc-plugin plugin.go
 	chmod +x $(CMP_PLUGIN)
 
 KUSTOMIZE ?= $(LOCALBIN)/kustomize
@@ -93,6 +93,9 @@ argocd-setup: argocd kustomize
 
 argocd-port-forward-stop:
 	pkill kubectl
+
+argocd-example-glbc-application:
+	kubectl -n argocd apply -f argocd/argocd-install/application-glbc-example.yaml
 
 logs: export KUBECONFIG=$(KIND_ADMIN_KUBECONFIG)
 logs:

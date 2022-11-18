@@ -35,5 +35,5 @@ spec:
 
             # Important: Mount plugin into the repo-server pod
             - name: custom-tools
-              subPath: argocd-vault-plugin
-              mountPath: /usr/local/bin/argocd-vault-plugin
+              subPath: argocd-glbc-plugin
+              mountPath: /usr/local/bin/argocd-glbc-plugin

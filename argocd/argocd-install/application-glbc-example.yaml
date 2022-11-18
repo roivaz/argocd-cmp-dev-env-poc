@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/roivaz/argocd-cmp-dev-env-poc.git
-    targetRevision: HEAD
+    targetRevision: share-the-plugin-as-host-mount
     path: manifests/test-app
   syncPolicy:
     syncOptions:

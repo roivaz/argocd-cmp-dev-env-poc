@@ -29,6 +29,7 @@ func main() {
 							}
 							fileExtension := filepath.Ext(file)
 							if fileExtension == ".yaml" {
+								// TODO: Parse out any Traffic Objects (Ingress/Route)
 								dat, err := os.ReadFile(file)
 								if err != nil {
 									log.Fatal(err)
@@ -36,6 +37,17 @@ func main() {
 								fmt.Println("---")
 								fmt.Println(string(dat))
 							}
+
+							// TODO: Fetch liveState from ArgoCD ManagedResources API, parsing out any Traffic Objects
+
+							// TODO: Fetch Cluster information from ArgoCD API
+
+							// TODO: Fetch any Applications that are part of the same multi-cluster deployment
+
+							// TODO: Pass Cluster information, multi-cluster Applications, and Traffic Objects targetState and liveState to GLBC transform endpoint
+
+							// TODO: Output transformed version of resources
+
 							return nil
 						})
 					if err != nil {

@@ -11,11 +11,11 @@ import (
 
 func main() {
 	app := &cli.App{
-		Name: "glbc-plugin",
+		Name: "argocd-glbc-plugin",
 		Commands: []*cli.Command{
 			{
 				Name:  "generate",
-				Usage: "glbc-plugin generate <path>",
+				Usage: "argocd-glbc-plugin generate <path>",
 				Action: func(cCtx *cli.Context) error {
 					path := cCtx.Args().First()
 					// fmt.Printf("len(path)=%d", len(path))

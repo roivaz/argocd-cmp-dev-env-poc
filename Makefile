@@ -100,13 +100,3 @@ argocd-example-glbc-application:
 logs: export KUBECONFIG=$(KIND_ADMIN_KUBECONFIG)
 logs:
 	kubectl -n argocd logs -fl "app.kubernetes.io/name=argocd-repo-server" -c plugin
-
-run-cmp-server: plugin-bin cmp-plugin argocd-cmp-server
-	docker run -ti --rm \
-		-v $(PWD)/argocd-cmp-plugin:/plugin \
-		-v $(PWD)/bin:/home/bin \
-		-v /tmp/argocd-plugin-sockets:/tmp/argocd-plugin-sockets \
-		-e ARGOCD_PLUGINSOCKFILEPATH=/tmp/argocd-plugin-sockets \
-		-u 999 \
-		busybox:latest \
-		/home/bin/argocd-cmp-server --config-dir-path /plugin --loglevel debug
